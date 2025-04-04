@@ -25,6 +25,8 @@ match tipo_do_produto:
         print("Desconto de 20%")
     case "Livros":
         print("Desconto de 50%")
+    case _:
+        print("Opção inválida")
 
 # Com if-elif-else (O clássico)
 if tipo_do_produto not in produtos_com_desconto:
