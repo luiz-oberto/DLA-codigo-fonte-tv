@@ -15,7 +15,7 @@ calcule e imprima o valor final do produto após a aplicação do desconto, com 
 produtos_com_desconto = ["Alimentos", "Eletrônicos", "Roupas", "Livros"]
 tipo_do_produto = "Livros"
 
-# Com match case (cujo a existêcia eu não sabia até 10 minutos atrás)
+# Com match case (cujo a existêcia eu não sabia até 10 minutos atrás quando fiz esse código)
 match tipo_do_produto:
     case "Alimentos":
         print("Desconto de 5%")
