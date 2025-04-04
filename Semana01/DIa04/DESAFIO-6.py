@@ -15,6 +15,18 @@ calcule e imprima o valor final do produto após a aplicação do desconto, com 
 produtos_com_desconto = ["Alimentos", "Eletrônicos", "Roupas", "Livros"]
 tipo_do_produto = "Livros"
 
+# Com match case (cujo a existêcia eu não sabia até 10 minutos atrás)
+match tipo_do_produto:
+    case "Alimentos":
+        print("Desconto de 5%")
+    case "Eletrônicos":
+        print("Desconto de 10%")
+    case "Roupas":
+        print("Desconto de 20%")
+    case "Livros":
+        print("Desconto de 50%")
+
+# Com if-elif-else (O clássico)
 if tipo_do_produto not in produtos_com_desconto:
     print("Produto sem desconto")
 elif tipo_do_produto == "Alimentos":
