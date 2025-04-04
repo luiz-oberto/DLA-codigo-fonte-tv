@@ -34,13 +34,3 @@ while True:
     else:
         print('Obrigado pela visita a nossa loja. Volte sempre!')
         break
-
-"""
-DESAFIOS PARA MULTIPLICAÇÃO
-
-"""
-
-"""
-DESAFIOS PARA DIVISÃO
-
-"""
