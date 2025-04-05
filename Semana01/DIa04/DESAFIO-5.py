@@ -7,9 +7,19 @@ estados: "Aberta", "Fechada" e "Manutenção".
 Baseado no valor da variável estado, crie um código usando switch que imprima uma mensagem
 adequada para o motorista.
 """
-# ********************** NÃO EXISTE SWITCH CASE EM PYTHON ********************************
-
 estado = "Fechada"
+
+match estado:
+    case "Aberta":
+        print("A cancela está aberta. Por favor, entre.")
+    case "Fechada":
+        print("A cancela está fechada, por favor, aguarde a liberação.")
+    case "Manutenção":
+        print("A cancela está em manutenção. Por favor, use a outra entrada.")
+    case _:
+        print("Estado desconhecido.")
+
+
 if estado == "Aberta":
     print("Abrindo cancela")
 elif estado == "Fechada":

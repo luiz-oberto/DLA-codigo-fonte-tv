@@ -25,24 +25,3 @@ elif idade >= 50 and idade < 70:
     print('Sua carteira possui validade de 5 anos')
 elif idade >= 70:
     print('Sua carteira possui validade de 3 anos')
-
-
-
-"""
-DESAFIO 02:
-Performance de aluno
-
-Crie um algoritmo que precisa dizer para um aluno
-como foi sua performance em uma prova a partir da
-nota que ele tirou.
-
-As regras são:
-
-1. Se a nota for menor que 5, então mostre que foi
-"Insuficiente";
-2. Se foi menor que 6, então mostre "Regular";
-3. Se foi menor que 7.5, mostre "Bom"
-4. Se foi menor que 9, "Muito bom";
-5. E finalmente se for maior ou igual a 9, mostre
-"Excelente".
-"""

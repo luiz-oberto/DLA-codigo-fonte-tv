@@ -12,7 +12,5 @@ console.log(status);
 }
 """
 nota = 85
-status = ""
-
 status = "aprovado" if nota >= 70 else "reprovado"
 print(status)
