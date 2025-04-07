@@ -29,7 +29,8 @@ def obterDiaSemana(dia: int):
         case 7:
             diaNome = "Sábado"
         case _:
-            ...
+            diaNome = "Dia inválido"
+            
     return print(diaNome)
 
 
@@ -40,3 +41,4 @@ obterDiaSemana(4)
 obterDiaSemana(5)
 obterDiaSemana(6)
 obterDiaSemana(7)
+obterDiaSemana(8)
