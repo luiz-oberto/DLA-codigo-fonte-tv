@@ -14,15 +14,7 @@ atingir R$1000, o limite será de 10%. Utilizando um
 saldo inicial dessas contas, efetue alguns cálculos
 através de funções que façam o seguinte:
 
-1. Calcular o saldo total das contas
-2. Exibir um alerta caso alguma conta esteja sem
-saldo ou utilizando o limite
-3. Fazer depósito em alguma das contas
-4. Efetuar débito em alguma das contas
-5. Transferir um determinado valor de uma conta
-para outra, somente se tiver saldo disponível
-6. Fazer a conversão do saldo (que está em R$) para
-dólar (US$)
+6. Fazer a conversão do saldo (que está em R$) para dólar (US$)
 7. Exibir o limite disponível
 
 Só para complicar um pouco, se ao efetuar um
@@ -33,11 +25,17 @@ conta_1 = 1.0
 conta_2 = 10.0
 limite = 0
 
-def saldo_total():
-    total = conta_1 + conta_2
-    print(f"Saldo total das contas: R${total}")
-    return
 
+# 1. Calcular o saldo total das contas - FEITO
+def saldo_total():
+    print(f"Conta 1: R${conta_1:.2f}")
+    print(f"Conta 2: R${conta_2:.2f}")
+    print(f'Limite no cartão: R${limite:.2f}')
+    total = conta_1 + conta_2
+    print(f"Saldo total das contas: R${total:.2f}\n")
+    return total
+
+# 2. Exibir um alerta caso alguma conta esteja sem saldo ou utilizando o limite
 def verificar_conta():
     if conta_1 == 0 and conta_2 == 0:
         print('SEM SALDO NAS CONTAS.')
@@ -48,19 +46,48 @@ def verificar_conta():
     # falta verificar limite!!!
     return
 
-# FALTA AJUSTES!!!
+# 3. Fazer depósito em alguma das contas - FEITO
 def depositar(valor: float, conta):
-    print(f"Efutando depósito de R${valor:.2f}")
+    print(f'Depositando R${valor:.2f}\n')
     conta += valor
-    print(f"Depósito efetuado.\n \nSaldo: R${conta}\n")
     return conta
 
+# 4. Efetuar débito em alguma das contas - FEITO
 def debitar(valor: float, conta):
-    print(f"Efutando débito de R${valor:.2f}")
+    print(f'Debitando R${valor:.2f}\n')
     conta -= valor
-    print(f"Débito efetuado.\n \nSaldo: R${conta}\n")
+    return conta
 
-# saldo_Total()
-# verificar_conta()
-depositar(100, conta_2)
-debitar(10, conta_2)
+# 5. Transferir um determinado valor de uma conta para outra, somente se tiver saldo disponível - FEITO
+def trasferencia(valor: float, conta_origem, conta_destino):
+    conta_origem = debitar(valor, conta_origem)
+    conta_destino = depositar(valor, conta_destino)
+    return conta_origem, conta_destino
+
+# ajustar para tirar os prints de saldo_total()
+def aumentar_limite():
+    if saldo_total() >= 1000:
+        print("Seu limite aumentou em 10%")
+        limite = saldo_total() * 0.10
+        print(f'Limite atual {limite:.2f}\n')
+    else:
+        print("Aumento de limite não autorizado.\n")
+    return
+
+
+saldo_total()
+verificar_conta()
+
+# Depositando dinheiro
+conta_1  = depositar(1000, conta_1)
+saldo_total()
+
+# Debitando dinehro
+conta_1 = debitar(10, conta_1)
+saldo_total()
+
+# Transferência
+conta_1, conta_2 = trasferencia(40, conta_1, conta_2)
+saldo_total()
+aumentar_limite()
+verificar_conta()
