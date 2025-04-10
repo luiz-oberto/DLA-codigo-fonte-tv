@@ -21,19 +21,24 @@ Só para complicar um pouco, se ao efetuar um
 depósito em uma conta ela estiver usando um limite,
 desconte do valor a ser depositado 15%.
 """
-conta_1 = 1.0
+conta_1 = 0.0
 conta_2 = 10.0
 limite = 0
 
 
 # 1. Calcular o saldo total das contas - FEITO
 def saldo_total():
+    total = conta_1 + conta_2
+    return total
+
+# Apenas exibe o saldo das contas
+def exibir_saldo():
     print(f"Conta 1: R${conta_1:.2f}")
     print(f"Conta 2: R${conta_2:.2f}")
     print(f'Limite no cartão: R${limite:.2f}')
-    total = conta_1 + conta_2
+    total = saldo_total()
     print(f"Saldo total das contas: R${total:.2f}\n")
-    return total
+    return
 
 # 2. Exibir um alerta caso alguma conta esteja sem saldo ou utilizando o limite
 def verificar_conta():
@@ -43,6 +48,8 @@ def verificar_conta():
         print('Conta 1: SEM SALDO.')
     elif conta_2 == 0:
         print('Conta 2: SEM SALDO.')
+    else:
+        print("Contas OK.")
     # falta verificar limite!!!
     return
 
@@ -53,18 +60,24 @@ def depositar(valor: float, conta):
     return conta
 
 # 4. Efetuar débito em alguma das contas - FEITO
-def debitar(valor: float, conta):
+def debitar(valor: float, conta, limite):
+    print("Efetuando pagamento...")
+    if valor > conta:
+        print("Saldo insuficiente, utilizando limite disponível...")
+        limite -= valor
+        return conta, limite
+
     print(f'Debitando R${valor:.2f}\n')
     conta -= valor
     return conta
 
 # 5. Transferir um determinado valor de uma conta para outra, somente se tiver saldo disponível - FEITO
-def trasferencia(valor: float, conta_origem, conta_destino):
-    conta_origem = debitar(valor, conta_origem)
+def trasferencia(valor: float, conta_origem, conta_destino, limite):
+    conta_origem = debitar(valor, conta_origem,limite)
     conta_destino = depositar(valor, conta_destino)
     return conta_origem, conta_destino
 
-# ajustar para tirar os prints de saldo_total()
+# Verifica o aumento de limite
 def aumentar_limite():
     if saldo_total() >= 1000:
         print("Seu limite aumentou em 10%")
@@ -72,22 +85,27 @@ def aumentar_limite():
         print(f'Limite atual {limite:.2f}\n')
     else:
         print("Aumento de limite não autorizado.\n")
-    return
+    return limite
 
 
-saldo_total()
 verificar_conta()
 
 # Depositando dinheiro
 conta_1  = depositar(1000, conta_1)
-saldo_total()
 
 # Debitando dinehro
-conta_1 = debitar(10, conta_1)
-saldo_total()
+conta_1 = debitar(10, conta_1, limite)
 
 # Transferência
-conta_1, conta_2 = trasferencia(40, conta_1, conta_2)
-saldo_total()
-aumentar_limite()
+print("Efetuando transferencia...")
+conta_1, conta_2 = trasferencia(40, conta_1, conta_2, limite)
+
+# Verificando aumento de limite
+exibir_saldo()
+print("Verificando limite...")
+limite = aumentar_limite()
+exibir_saldo()
 verificar_conta()
+
+conta_2, limite = debitar(70, conta_2, limite)
+exibir_saldo()
