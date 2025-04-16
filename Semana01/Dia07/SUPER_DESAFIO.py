@@ -14,8 +14,6 @@ atingir R$1000, o limite será de 10%. Utilizando um
 saldo inicial dessas contas, efetue alguns cálculos
 através de funções que façam o seguinte:
 
-6. Fazer a conversão do saldo (que está em R$) para dólar (US$)
-7. Exibir o limite disponível
 
 Só para complicar um pouco, se ao efetuar um
 depósito em uma conta ela estiver usando um limite,
@@ -31,14 +29,8 @@ def saldo_total():
     total = conta_1 + conta_2
     return total
 
-# Apenas exibe o saldo das contas
-def exibir_saldo():
-    print(f"Conta 1: R${conta_1:.2f}")
-    print(f"Conta 2: R${conta_2:.2f}")
-    print(f'Limite no cartão: R${limite:.2f}')
-    total = saldo_total()
-    print(f"Saldo total das contas: R${total:.2f}\n")
-    return
+
+
 
 # 2. Exibir um alerta caso alguma conta esteja sem saldo ou utilizando o limite
 def verificar_conta():
@@ -53,15 +45,18 @@ def verificar_conta():
     # falta verificar limite!!!
     return
 
+
 # 3. Fazer depósito em alguma das contas - FEITO
 def depositar(valor: float, conta):
     print(f'Depositando R${valor:.2f}\n')
     conta += valor
     return conta
 
+
 # 4. Efetuar débito em alguma das contas - FEITO
-def debitar(valor: float, conta, limite):
+def debitar(valor: float, conta: float, limite:float):
     print("Efetuando pagamento...")
+
     if valor > conta:
         print("Saldo insuficiente, utilizando limite disponível...")
         limite -= valor
@@ -69,13 +64,17 @@ def debitar(valor: float, conta, limite):
 
     print(f'Debitando R${valor:.2f}\n')
     conta -= valor
-    return conta
+    return conta, limite
+
 
 # 5. Transferir um determinado valor de uma conta para outra, somente se tiver saldo disponível - FEITO
 def trasferencia(valor: float, conta_origem, conta_destino, limite):
-    conta_origem = debitar(valor, conta_origem,limite)
+    
+    conta_origem = debitar(valor, conta_origem, limite)
     conta_destino = depositar(valor, conta_destino)
+    
     return conta_origem, conta_destino
+
 
 # Verifica o aumento de limite
 def aumentar_limite():
@@ -88,7 +87,28 @@ def aumentar_limite():
     return limite
 
 
+# 6. Fazer a conversão do saldo (que está em R$) para dólar (US$)
+def conversaoParaDolar():
+    
+    dolar = 5.903
+    total = saldo_total()
+
+    conversao = total / dolar
+
+    return print(f'R${total:.2f} -> US${conversao:.2f}')
+
+
+# 7. Exibir o limite disponível
+def exibir_saldo():
+    print(f"Conta 1: R${conta_1:.2f}")
+    print(f"Conta 2: R${conta_2:.2f}")
+    print(f'Limite no cartão: R${limite:.2f}')
+    total = saldo_total()
+    print(f"Saldo total das contas: R${total:.2f}\n")
+    return
+
 verificar_conta()
+
 
 # Depositando dinheiro
 conta_1  = depositar(1000, conta_1)
@@ -109,3 +129,7 @@ verificar_conta()
 
 conta_2, limite = debitar(70, conta_2, limite)
 exibir_saldo()
+
+conta_1, limite = debitar(120, conta_1, limite)
+
+conversaoParaDolar()
