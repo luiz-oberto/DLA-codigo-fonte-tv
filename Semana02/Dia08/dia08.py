@@ -38,7 +38,7 @@ saldos = []
 # # saldo da conta 5
 # print(saldos[4])
 
-# vamos imaginar quee listas são arrays
+# vamos imaginar que arrays são as listas em python
 for i in range(NUMERO_CONTAS):
     saldos.append(0)
 
