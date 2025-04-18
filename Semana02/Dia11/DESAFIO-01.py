@@ -49,6 +49,10 @@ def voltar():
 
     global paginaAtual
 
+    if paginaAnterior == []:
+        print('Não há páginas para retornar')
+        return
+
     proximaPagina.append(paginaAtual)
     paginaAtual = paginaAnterior.pop()
     print(f'voltando para {paginaAtual}')
@@ -58,8 +62,11 @@ def avancar():
     
     global paginaAtual
     
+    paginaAnterior.append(paginaAtual)
     paginaAtual = proximaPagina.pop()
+
     print(f'Avançando para {paginaAtual}')
+
 
 
 navegarPara('cnn.com')
@@ -69,5 +76,11 @@ navegarPara('terra.com.br')
 voltar()
 
 avancar()
+
+navegarPara('A')
+
+voltar()
+voltar()
+voltar()
 
 print(historico)
