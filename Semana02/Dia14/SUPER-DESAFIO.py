@@ -21,29 +21,29 @@ random.seed(40)
 caixas = [ 
     {
     "caixa": 1,
-    "filaCaixa": [],
+    "filaCaixa": [1],
     "preferencial": True,
     "caixa Rapido": False,
     },
 
     {
     "caixa": 2,
-    "filaCaixa": [],
-    "preferencial": False,
+    "filaCaixa": [1,2, 3],
+    "preferencial": True,
     "caixa Rapido": False,
     },
 
     {
     "caixa": 3,
-    "filaCaixa": [],
-    "preferencial": False,
+    "filaCaixa": [1],
+    "preferencial": True,
     "caixa Rapido": False,
     },
 
     {
     "caixa": 4,
     "filaCaixa": [],
-    "preferencial": True,
+    "preferencial": False,
     "caixa Rapido": False,
     },
 
@@ -66,19 +66,32 @@ def verificarCaixasPreferenciais():
         if caixa['preferencial']:
             caixasPreferenciais.append(caixa)
 
-    print(f'Caixa preferênciais: {caixasPreferenciais}')
-
     return caixasPreferenciais
 
 
 
 def verificarMenorFila(listaCaixas: list):
-    for fila in listaCaixas:
-        # print('uma das menores filas', fila)
-        # Verifica qual caixa tem a menos fila
-        if len(fila["filaCaixa"]) == 0:
-            print('retornando ', fila['caixa'])
-            return fila['caixa']
+    print('LISTA DOS CAIXAS ',listaCaixas)
+    lista = []
+    indice = 0
+    menorFila = {}
+
+    while indice < len(listaCaixas):
+
+        if menorFila == {}:
+            menorFila = listaCaixas[indice]
+        
+        elif len(menorFila['filaCaixa']) > len(listaCaixas[indice]['filaCaixa']):
+            menorFila = listaCaixas[indice]
+
+        indice+=1
+
+    print(f'A menor fila é {menorFila}')
+    print()
+    return menorFila
+
+        
+
         
         
 
@@ -90,16 +103,14 @@ def adicionarClienteFila(cliente: dict):
 
         caixasPreferenciais = verificarCaixasPreferenciais()
 
-        menorFila = verificarMenorFila(caixasPreferenciais) - 1
+        # menorFila = 
+        verificarMenorFila(caixasPreferenciais)
 
-        print(f'o caixa com menor fila é {caixas[menorFila]}')
+        # print(f'o caixa com menor fila é {caixas[menorFila]}')
 
-        caixas[menorFila]["filaCaixa"].append(cliente)
+        # caixas[menorFila]["filaCaixa"].append(cliente)
 
 
-        # for i in caixas:
-        #     if i['preferencial']:
-                # print(f'o caixa {i["caixa"]} é preferencial, colocando o cliente na fila')
         return
     
     else:
@@ -127,6 +138,8 @@ for c in clientes:
 
 print()
 print(caixas[0])
+
+
 
 # ------ CÓDIGO RASCUNHO -----------
 # i = 3
