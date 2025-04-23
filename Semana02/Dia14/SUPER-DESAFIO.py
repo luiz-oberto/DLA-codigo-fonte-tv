@@ -17,25 +17,25 @@ import random
 
 random.seed(40)
 
-
+# lISTA DE CAIXAS
 caixas = [ 
     {
     "caixa": 1,
-    "filaCaixa": [1],
+    "filaCaixa": [],
     "preferencial": True,
     "caixa Rapido": False,
     },
 
     {
     "caixa": 2,
-    "filaCaixa": [1,2, 3],
+    "filaCaixa": [],
     "preferencial": True,
     "caixa Rapido": False,
     },
 
     {
     "caixa": 3,
-    "filaCaixa": [1],
+    "filaCaixa": [],
     "preferencial": True,
     "caixa Rapido": False,
     },
@@ -53,12 +53,48 @@ caixas = [
     "preferencial": False,
     "caixa Rapido": False,
     },
+
+    {
+    "caixa": 6,
+    "filaCaixa": [],
+    "preferencial": False,
+    "caixa Rapido": False,
+    },
+
+    {
+    "caixa": 7,
+    "filaCaixa": [],
+    "preferencial": False,
+    "caixa Rapido": False,
+    },
+
+    {
+    "caixa": 8,
+    "filaCaixa": [],
+    "preferencial": False,
+    "caixa Rapido": False,
+    },
+
+    {
+    "caixa": 9,
+    "filaCaixa": [],
+    "preferencial": False,
+    "caixa Rapido": False,
+    },
+
+    {
+    "caixa": 10,
+    "filaCaixa": [],
+    "preferencial": False,
+    "caixa Rapido": False,
+    },
 ]
 
 
 
 # FUNÇÕES
-def verificarCaixasPreferenciais():
+# Acha os caixas PREFERÊNCIAIS
+def acharCaixasPreferenciais():
 
     caixasPreferenciais = []
 
@@ -69,10 +105,21 @@ def verificarCaixasPreferenciais():
     return caixasPreferenciais
 
 
+# acha os caixas NÃO PREFERÊNCIAIS
+def acharCaixas():
 
+    caixasNormais = []
+
+    for caixa in caixas:
+        if caixa['preferencial'] == False:
+            caixasNormais.append(caixa)
+
+    return caixasNormais
+
+
+# Verifica o caixa com a menor fila para se adicionar o cliente
 def verificarMenorFila(listaCaixas: list):
-    print('LISTA DOS CAIXAS ',listaCaixas)
-    lista = []
+
     indice = 0
     menorFila = {}
 
@@ -86,77 +133,53 @@ def verificarMenorFila(listaCaixas: list):
 
         indice+=1
 
-    print(f'A menor fila é {menorFila}')
-    print()
     return menorFila
 
-        
 
-        
-        
 
-# passo o cliente com informação se é preferencial ou não e a lista de caixas
+# Adiciona um cliente a fila
 def adicionarClienteFila(cliente: dict):
 
     if cliente['preferencial']:
-        # print(f'O cliente {cliente['cliente']} é preferencial')
 
-        caixasPreferenciais = verificarCaixasPreferenciais()
+        caixasPreferenciais = acharCaixasPreferenciais()
 
-        # menorFila = 
-        verificarMenorFila(caixasPreferenciais)
+        menorFila = verificarMenorFila(caixasPreferenciais)
 
-        # print(f'o caixa com menor fila é {caixas[menorFila]}')
-
-        # caixas[menorFila]["filaCaixa"].append(cliente)
-
-
-        return
+        menorFila["filaCaixa"].append(cliente)
     
     else:
-        # adicionar clientes sem preferências aos caixas normais
-        print(f'Adicionando cliente {cliente['cliente']} ao caixa normal...')
+        caixasNormais = acharCaixas()
+
+        menorFila = verificarMenorFila(caixasNormais)
+
+        menorFila['filaCaixa'].append(cliente)
         
 
 
 
-clientes = []
+# CRIAR CLIENTES
+def gerarClientes(qtdClientes):
+    clientes = []
+
+    for i in range(1, qtdClientes + 1):
+        cliente = {
+            'cliente': i,
+            'preferencial': random.choice([True, False])
+        }
+
+        clientes.append(cliente)
+        adicionarClienteFila(cliente)
+
+    print('\n----- EXIBINDO CLIENTES ---------')
+    for c in clientes:
+        print(c)
 
 
-for i in range(1, 3):
-    cliente = {
-        'cliente': i,
-        'preferencial': random.choice([True, False])
-    }
-
-    adicionarClienteFila(cliente)
-    clientes.append(cliente)
-
-print('\n----- EXIBINDO CLIENTES ---------')
-for c in clientes:
-    print(c)
 
 print()
-print(caixas[0])
+gerarClientes(50)
 
-
-
-# ------ CÓDIGO RASCUNHO -----------
-# i = 3
-
-# retorna apenas as chaves dentro do dicionário
-# chaves = caixas.keys()
-# print(chaves)
-
-# for key in chaves:
-#     print(key)
-
-# BLOCO QUE PODE SER ÚTIL
-# if f"caixa{i}" in chaves:
-#     print(f'Caixa {i} existe :))')
-# else:
-#     print('Caixa inexistente')
-
-# caixas[f"filaCaixa{i}"].append('cliente1')
-# v = caixas[f"filaCaixa{i}"]
-# print(v)
+for caixa in caixas:
+    print(f'caixa {caixa['caixa']}')
+    print(f'fila {caixa['filaCaixa']}\n')
