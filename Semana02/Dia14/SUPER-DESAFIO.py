@@ -93,6 +93,8 @@ caixas = [
 
 
 # FUNÇÕES
+# ADICIONAR A FUNÇÃO PARA ATENDER CLIENTES
+
 # Acha os caixas PREFERÊNCIAIS
 def acharCaixasPreferenciais():
 
@@ -105,6 +107,7 @@ def acharCaixasPreferenciais():
     return caixasPreferenciais
 
 
+
 # acha os caixas NÃO PREFERÊNCIAIS
 def acharCaixas():
 
@@ -115,6 +118,7 @@ def acharCaixas():
             caixasNormais.append(caixa)
 
     return caixasNormais
+
 
 
 # Verifica o caixa com a menor fila para se adicionar o cliente
@@ -157,8 +161,14 @@ def adicionarClienteFila(cliente: dict):
         
 
 
+# atender clientes
+def atenderCliente(caixa: dict):
+    clienteAtendido = caixa['filaCaixa'].pop(0)
+    print(f'o cliente {clienteAtendido['cliente']} foi atendido')
 
-# CRIAR CLIENTES
+
+
+# CRIAR CLIENTES E ADICIONA AS FILAS DE ACORDO COM A PREFERÊNCIA
 def gerarClientes(qtdClientes):
     clientes = []
 
@@ -177,9 +187,12 @@ def gerarClientes(qtdClientes):
 
 
 
+
 print()
-gerarClientes(50)
+gerarClientes(10)
 
 for caixa in caixas:
     print(f'caixa {caixa['caixa']}')
     print(f'fila {caixa['filaCaixa']}\n')
+
+atenderCliente(caixas[1])
