@@ -26,39 +26,98 @@ depois passe a lógica para o código.
 '''
 class CriarNo:
     def __init__(self, valor):
-        self.valor = valor
-        self.proximo = None
+        self.data = valor
+        self.next = None
     
 class ListaEncadeada:
     def __init__(self):
-        self.primeiro = None
+        self.head = None
     
-    def adicionar(self, valor):
+    def insertFirst(self, valor):
         
-        novo_no = CriarNo(valor)
+        novoNo = CriarNo(valor)
         
-        if self.primeiro is None:
-            self.primeiro = novo_no
-        else:
-            atual = self.primeiro
+        # Verifica se existe algum nó
+        if self.head is None:
+            
+            # o primeiro nó recebe seu valor e a localização do próximo valor
+            self.head = novoNo
 
-            while atual.proximo is not None:
-                atual = atual.proximo
-            atual.proximo = novo_no
+        else:
+            # Caso já exista um nó, vamos então verificar qual o nó que não possui a localização do próximo nó
+            # OU SEJA, vamos atrá do úlitmo nó e acrescentar o valor do novo nó após ele
+            atual = self.head
+
+            while atual.next is not None:
+                atual = atual.next
+            atual.next = novoNo
         # print(novo_no)
 
-    def imprimir(self):
-        atual = self.primeiro
+
+######### IMPLEMENTAR AS PRÓXIMAS FUNÇÕES ##########
+
+    # Inclui um nó no final da lista
+    def insertLast(self):
+        ...
+
+    
+    # que inclui um nó em uma determinada posição 
+    def insertAt(self):
+        ...
+
+
+    # que exclui um nó em uma determinada posição
+    def deleteAt(self):
+        ...
+
+    
+    # que encontra um nó de acordo com a posição
+    def searchAt(self):
+        ...
+
+
+    # que pecorre todos os nós
+    def traversal(self):
+        atual = self.head
+
+        # declarar uma lista para retornar ela ao final com todos os nós inclusos nela
+        listaNo = []
+
         while atual is not None:
-            print(atual.valor)
-            atual = atual.proximo
+            listaNo.append(atual) # salva o nó na lista
+            atual = atual.next
+
+        # retornar um lista enumerada
+
+        return listaNo
+
+    
+    # que retorna a posição de acordo com o elemento do nó
+    def indexOf(self, data):
+        listaValores = self.traversal()
+
+        i = 0
+
+        while i < len(listaValores):
+        
+            if data == listaValores[i].data:
+                return i
+            else:
+                i+=1
+        
+        return print('ERROR: Valor não encontrado entre os nós')
+
+
 
 
 listaEncadeada = ListaEncadeada()
 
-listaEncadeada.adicionar('Vagão 1')
-listaEncadeada.adicionar('Vagão 2')
-listaEncadeada.adicionar('Vagão 3')
+listaEncadeada.insertFirst('Vagão 1')
+listaEncadeada.insertFirst('Vagão 2')
+listaEncadeada.insertFirst('Vagão 3')
+listaEncadeada.insertFirst('Vagão 3')
 
-listaEncadeada.imprimir()
+listaEncadeada.traversal()
 
+indice = listaEncadeada.indexOf('Vagão 3')
+print(indice)
