@@ -33,7 +33,26 @@ class ListaEncadeada:
     def __init__(self):
         self.head = None
     
-    def insertFirst(self, valor):
+
+
+######### IMPLEMENTAR AS PRÓXIMAS FUNÇÕES ##########
+
+    # Inclui um nó no final da lista
+    def insertFirst(self, data):
+        
+        novoNo = CriarNo(data)
+
+        if self.head == None:
+           self.head = novoNo
+        else:
+            atual = self.head
+            novoNo.next = atual
+            self.head = novoNo
+
+
+
+    # Insere um valor no último nó
+    def insertLast(self, valor):
         
         novoNo = CriarNo(valor)
         
@@ -51,32 +70,66 @@ class ListaEncadeada:
             while atual.next is not None:
                 atual = atual.next
             atual.next = novoNo
-        # print(novo_no)
-
-
-######### IMPLEMENTAR AS PRÓXIMAS FUNÇÕES ##########
-
-    # Inclui um nó no final da lista
-    def insertLast(self):
-        ...
-
     
-    # que inclui um nó em uma determinada posição 
-    def insertAt(self):
-        ...
 
 
-    # que exclui um nó em uma determinada posição
+    # inclui um nó em uma determinada posição
+    # !!!!!!!!!! FALTA AJUSTAR PARA INSERIR UM NÓ AO INÍCIO E AO FINAL !!!!!!! 
+    def insertAt(self, index: int, data):
+        if isinstance(index, int):
+
+            listaNo = self.traversal()
+
+            if index <= len(listaNo)-1:
+                # cria o novo nó a ser inserido
+                novoNo = CriarNo(data)
+
+                # salva o nó atual em que vamos inserir o novo nó
+                noAtual = listaNo[index-1]
+                # salva o next do nó atual
+                nextDoNoAtual = noAtual.next
+
+                # insere o novo nó na posição desejada
+                noAtual.next = novoNo
+
+                # salva no NEXT do novo nó, o próximo nó da sequencia
+                novoNo.next = nextDoNoAtual
+
+            else:
+                return 'ERROR: Index out of range.'
+
+        else:
+            return 'ERROR: The index value must be an integer.'
+
+
+
+    # exclui um nó em uma determinada posição
     def deleteAt(self):
         ...
 
+
     
-    # que encontra um nó de acordo com a posição
-    def searchAt(self):
-        ...
+    # encontra um nó de acordo com a posição
+    def searchAt(self, index): # procure o valor da posição 3
+        
+        if isinstance(index, int):
+            
+            listaNo = self.traversal()
+            
+            # verificar se o índice se encontra no range da lista
+            if index <= len(listaNo)-1:
+                valor = listaNo[index]
+                # retornar o valor de acordo com o ínidice procurado
+                return valor.data
+            else:
+                return 'ERROR: Index out of range.'
+        
+        else:
+            return 'ERROR: The index value must be an integer.'
 
 
-    # que pecorre todos os nós
+
+    # pecorre todos os nós
     def traversal(self):
         atual = self.head
 
@@ -87,12 +140,11 @@ class ListaEncadeada:
             listaNo.append(atual) # salva o nó na lista
             atual = atual.next
 
-        # retornar um lista enumerada
-
         return listaNo
 
+
     
-    # que retorna a posição de acordo com o elemento do nó
+    # retorna a posição de acordo com o elemento do nó
     def indexOf(self, data):
         listaValores = self.traversal()
 
@@ -110,14 +162,39 @@ class ListaEncadeada:
 
 
 
+
+################################## EXECUÇÃO DO CÓDIGO #########################################
 listaEncadeada = ListaEncadeada()
 
-listaEncadeada.insertFirst('Vagão 1')
-listaEncadeada.insertFirst('Vagão 2')
-listaEncadeada.insertFirst('Vagão 3')
-listaEncadeada.insertFirst('Vagão 3')
+# inserir no final
+listaEncadeada.insertLast('Vagão 1')
+listaEncadeada.insertLast('Vagão 2')
+listaEncadeada.insertLast('Vagão 3')
 
-listaEncadeada.traversal()
+# inserir no início
+listaEncadeada.insertFirst('Vagão 4')
+listaEncadeada.insertFirst('Vagão 5')
+listaEncadeada.insertFirst('Vagão 6')
 
-indice = listaEncadeada.indexOf('Vagão 3')
-print(indice)
+# inserir em
+listaEncadeada.insertAt(6, 'Vagão N')
+
+# printar lista encadeada
+listaTraversal = listaEncadeada.traversal()
+for i in listaTraversal:
+    print(i.data)
+
+# retornar o índice do valor procurado
+print(listaEncadeada.indexOf('Vagão 3'))
+
+# retornar o valor de acordo com o índice passado
+print(listaEncadeada.searchAt(5))
+
+
+############## RASCUNHO #############
+# listaExemplo = [1,2, 3, 4]
+# if 3 <= len(listaExemplo)-1:
+#     print('True')
+#     print(len(listaExemplo))
+# else:
+#     print('false')
