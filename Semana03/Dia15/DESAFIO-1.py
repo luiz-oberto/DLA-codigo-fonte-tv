@@ -37,7 +37,7 @@ class ListaEncadeada:
 
 ######### IMPLEMENTAR AS PRÓXIMAS FUNÇÕES ##########
 
-    # Inclui um nó no final da lista
+    # Inclui um nó no início da lista
     def insertFirst(self, data):
         
         novoNo = CriarNo(data)
@@ -85,7 +85,7 @@ class ListaEncadeada:
             if index == 0:
                 self.insertFirst(data)
 
-            elif index <= len(listaNo):
+            elif index <= len(listaNo): # não deveria ser <= apenas <
                 # cria o novo nó a ser inserido
                 novoNo = CriarNo(data)
 
@@ -114,7 +114,7 @@ class ListaEncadeada:
         if isinstance(index, int):
             
             listaNo = self.traversal()
-            if index <= len(listaNo)-1:
+            if index <= len(listaNo)-1: # não deveria ser <= apenas <
                 mensagem = f'{listaNo[index].data} excluído.'
 
                 # salvar o next que estava atraldo ao nó excluído
@@ -142,7 +142,7 @@ class ListaEncadeada:
             listaNo = self.traversal()
             
             # verificar se o índice se encontra no range da lista
-            if index <= len(listaNo)-1:
+            if index <= len(listaNo)-1: # não deveria ser <= apenas <
                 valor = listaNo[index]
                 # retornar o valor de acordo com o ínidice procurado
                 return valor.data
