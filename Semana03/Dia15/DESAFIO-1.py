@@ -74,13 +74,18 @@ class ListaEncadeada:
 
 
     # inclui um nó em uma determinada posição
-    # !!!!!!!!!! FALTA AJUSTAR PARA INSERIR UM NÓ AO INÍCIO E AO FINAL !!!!!!! 
     def insertAt(self, index: int, data):
+
+        # verifiva se o ínidice é tipo int
         if isinstance(index, int):
 
             listaNo = self.traversal()
 
-            if index <= len(listaNo)-1:
+            # verifica se index passado é o que está na última posição
+            if index == 0:
+                self.insertFirst(data)
+
+            elif index <= len(listaNo):
                 # cria o novo nó a ser inserido
                 novoNo = CriarNo(data)
 
@@ -104,9 +109,29 @@ class ListaEncadeada:
 
 
     # exclui um nó em uma determinada posição
-    def deleteAt(self):
-        ...
+    def deleteAt(self, index: int):
 
+        if isinstance(index, int):
+            
+            listaNo = self.traversal()
+            if index <= len(listaNo)-1:
+                mensagem = f'{listaNo[index].data} excluído.'
+
+                # salvar o next que estava atraldo ao nó excluído
+                nextDoExcluido = listaNo[index].next
+
+                if index == 0:
+                    self.head = nextDoExcluido
+                else:
+                    listaNo[index-1].next = nextDoExcluido
+                
+                return mensagem
+            
+            else:
+                return 'Index inválido'
+
+        else:
+            return 'ERROR: The index value must be an integer.'
 
     
     # encontra um nó de acordo com a posição
@@ -185,16 +210,17 @@ for i in listaTraversal:
     print(i.data)
 
 # retornar o índice do valor procurado
-print(listaEncadeada.indexOf('Vagão 3'))
+print(listaEncadeada.indexOf('Vagão N'))
 
 # retornar o valor de acordo com o índice passado
-print(listaEncadeada.searchAt(5))
+print(listaEncadeada.searchAt(0))
 
+# deletar o vagão que acrescentei
+print()
+print(listaEncadeada.deleteAt(7))
+print()
 
-############## RASCUNHO #############
-# listaExemplo = [1,2, 3, 4]
-# if 3 <= len(listaExemplo)-1:
-#     print('True')
-#     print(len(listaExemplo))
-# else:
-#     print('false')
+# printando lista encadeada após deleção de um dos nós
+listaTraversal = listaEncadeada.traversal()
+for i in listaTraversal:
+    print(i.data)
