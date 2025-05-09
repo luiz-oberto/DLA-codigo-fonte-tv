@@ -20,7 +20,7 @@ playlist deve ter as seguintes funcionalidades:
 3. Toda vez que uma música é adicionada, ela é
 colocada no início da playlist
 
-# 
+# FEITO
 4. É possível mover a posição da música na playlist a
 qualquer momento
 
@@ -210,7 +210,7 @@ album = [
 musica = Music('Dia Lindo', 'O Rappa', '6:10')
 
 # tocar música
-# musica1.play()
+musica.play()
 
 # criar playlist
 lista_1 = Playlist('lista_1')
@@ -227,7 +227,7 @@ lista_1.show_playlist_musics('lista_1')
 lista_1.play_playlist()
 
 # deletar música
-# lista_1.delete_music()
+lista_1.delete_music()
 
 # tocar apenas uma música
 lista_1.play_one_music(0)
