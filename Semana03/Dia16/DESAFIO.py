@@ -87,7 +87,7 @@ class Playlist:
     def delete_music(self):
         print('\n# deseja deletar qual música?\n')
         
-        for music in enumerate(self.musics):
+        for music in enumerate(self.musics, 1):
             print(f'{music[0]}. {music[1].name} - {music[1].artist}')
         
         index = input('$ Insira o índice-> ')
@@ -95,19 +95,19 @@ class Playlist:
         try:
 
             select_to_int = int(index)
-            select = input(f'excluir a música {self.musics[select_to_int].name}? [Y/n] ')
+            select = input(f'excluir a música {self.musics[select_to_int-1].name}? [Y/n] ')
             
             match select:
                 case '':
-                    musica_deletada = self.musics.pop(select_to_int)
+                    musica_deletada = self.musics.pop(select_to_int-1)
                     print(f'A música {musica_deletada.name} foi excluída da playlist')
                 
                 case 'Y':
-                    musica_deletada = self.musics.pop(select_to_int)
+                    musica_deletada = self.musics.pop(select_to_int-1)
                     print(f'A música {musica_deletada.name} foi excluída da playlist')
                 
                 case 'y':
-                    musica_deletada = self.musics.pop(select_to_int)
+                    musica_deletada = self.musics.pop(select_to_int-1)
                     print(f'A música {musica_deletada.name} foi excluída da playlist')
                 
                 case 'n':
@@ -155,7 +155,19 @@ class Playlist:
             print('Índice inserido inválido')
         return
 
-    def change_order(self):
+
+    # trocar a ordem de uma música
+    def change_order(self, music_index: int, new_order: int):
+        list_musics = self.musics.copy()
+
+        music_to_change = list_musics.pop(music_index)
+        list_musics.insert(new_order, music_to_change)
+        self.musics = list_musics
+
+        print('\n# Ordem das músicas alterada com sucesso!')
+        for i in self.musics:
+            print(i.name)
+
         return
     
 ###########################################################################################
@@ -221,3 +233,6 @@ lista_1.play_playlist()
 lista_1.play_one_music(0)
 
 # lista_1.show_playlist_musics('lista_1')
+
+# mudar a ordem de uma música
+lista_1.change_order(0,3)
