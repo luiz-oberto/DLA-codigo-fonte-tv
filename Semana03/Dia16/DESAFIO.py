@@ -232,7 +232,7 @@ lista_1.delete_music()
 # tocar apenas uma música
 lista_1.play_one_music(0)
 
-# lista_1.show_playlist_musics('lista_1')
+lista_1.show_playlist_musics('lista_1')
 
 # mudar a ordem de uma música
 lista_1.change_order(0,3)
