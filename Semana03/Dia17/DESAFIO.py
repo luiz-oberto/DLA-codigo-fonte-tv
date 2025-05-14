@@ -41,52 +41,52 @@ produtos = [
 ["Leite", 6.49],
 ["Óleo", 8.99],
 ["Pão", 7.00],
-# ["Café", 15.30],
-# ["Açúcar", 4.89],
-# ["Sal", 3.25],
-# ["Macarrão", 5.79],
-# ["Manteiga", 9.99]
+["Café", 15.30],
+["Açúcar", 4.89],
+["Sal", 3.25],
+["Macarrão", 5.79],
+["Manteiga", 9.99]
 ]
 
+# talvez mude para selection sort
+def selection_sort(lista: list):
+    if isinstance(lista, list):
 
-def selection_sort(lista):
+        i, j = 0, 0
+        temp = lista[i]
 
-    i, j = 0, 0
+        while j != len(lista)-1:
+            
+            if temp[1] > lista[i+1][1]:
+                temp = lista[i+1]
 
-    while j < len(lista):
+            i+=1
 
-        min_value_position = j
-        min_value = produtos[j]
-
-        while i < len(lista):
-                            
             if i == len(lista)-1:
-                break
+                menor_valor = lista.pop(lista.index(temp))
+                lista.insert(j, menor_valor)
+                j+=1
+                temp = lista[j]
+                i=j
 
-            if lista[i+1][1] > min_value[1]:
-                print(lista[i+1])
-                i+=1
+    return lista
 
-            else:
-                min_value = lista[i+1]
-                print('valor mínimo: ',min_value)
-                min_value_position = i + 1
-                i+=1
-        
-        temp_new_value = lista.pop(min_value_position)
-        temp_old_value = lista.pop(j) # ERRO
-        lista.insert(j, temp_new_value)
-        lista.insert(min_value_position, temp_old_value)
+# ORGANIZANDO E EXIBINDO PRODUTOS
+produtos_organizado = selection_sort(produtos)
 
-        
-        j+=1
-        i = 0
-        print(lista)
+for i in produtos_organizado:
+    print(i)
 
-    return
-
-
-selection_sort(produtos)
-
-# produtos.insert(1, ["café", 15.30])
-# print(produtos)
+'''
+# SAÍDA:
+['Sal', 3.25]
+['Açúcar', 4.89]
+['Macarrão', 5.79]
+['Leite', 6.49]
+['Pão', 7.0]
+['Óleo', 8.99]
+['Manteiga', 9.99]
+['Feijão', 12.5]
+['Café', 15.3]
+['Arroz', 25.99]
+'''
