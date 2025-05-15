@@ -31,7 +31,8 @@ for nome, preco in produtos_organizado:
 1. Uso de variáveis i e j confuso
 O uso simultâneo de i e j de forma dinâmica torna o código mais difícil de entender.
 
-No Selection Sort, normalmente percorremos a lista a partir de um índice i e buscamos o menor elemento nos índices seguintes (i+1 até o fim), depois trocamos com i.
+No Selection Sort, normalmente percorremos a lista a partir de um índice i e buscamos o menor elemento nos 
+índices seguintes (i+1 até o fim), depois trocamos com i.
 
 2. Modificações diretas com pop() e insert()
 Essas operações mudam a lista enquanto ela está sendo percorrida, o que pode causar confusão ou até bugs em outras situações.
@@ -39,8 +40,10 @@ Essas operações mudam a lista enquanto ela está sendo percorrida, o que pode 
 O Selection Sort clássico faz apenas troca de elementos (swap), e não remoções/inserções.
 
 3. Nome da função
-selection_sort é um nome ótimo, mas se for usada em outro contexto, uma docstring explicando que ordena uma lista de sublistas com base no segundo item seria útil.
+selection_sort é um nome ótimo, mas se for usada em outro contexto, uma docstring explicando que ordena uma lista de 
+sublistas com base no segundo item seria útil.
 
 4. Checagem de tipo não é essencial
-A checagem com isinstance(lista, list) não é muito útil aqui, pois se não for uma lista, o código quebraria de qualquer forma. Prefira lançar um erro (raise TypeError(...)) se quiser algo robusto.
+A checagem com isinstance(lista, list) não é muito útil aqui, pois se não for uma lista, o código quebraria 
+de qualquer forma. Prefira lançar um erro (raise TypeError(...)) se quiser algo robusto.
 """
