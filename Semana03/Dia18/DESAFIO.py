@@ -145,8 +145,21 @@ class Playlist:
                 if i == len(self.musics)-1:
                     break
 
-                if self.musics[i]['name'] > self.musics[i+1]['name']:
-                    # verificar se a primeira letra do nome é igual, se for, ordenar pela segunda letra
+                musica_1 = self.musics[i]["name"]
+                musica_2 = self.musics[i+1]["name"]
+
+                # verificar qual possui a string maior
+                nome_maior = musica_1 if len(musica_1) > len(musica_2) else nome_maior = musica_2
+                
+                # verificar se a primeira letra do nome é igual, se positivo, ordenar pela segunda letra
+                if musica_1[0].upper() == musica_2[0].upper():
+                    for i in range(len(nome_maior)):
+                        if musica_1[i] < musica_2[i]:
+                            ...
+                        
+                    # print('primeira letra dos nomes são iguais')
+
+                if musica_1 > musica_2:
                     temp = self.musics[i+1]
                     self.musics[i+1] = self.musics[i]
                     self.musics[i] = temp

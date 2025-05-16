@@ -53,22 +53,13 @@ album = [
     }
 ]
 
-musica1 = album[0]
-musica2 = album[1]
-# print(musica1)
-# print(musica2)
-# print(musica1['reproductionTime'] < musica2['reproductionTime'])
-# print(musica1['name'] > musica2['name']) # quanto maior a letra, maior o valor
-# ex: 'e' > 'a' ==> True
-palavra1 = 'what'
-palavra2 = 'wake' # em nosso caso a palavra1 deveria vir antes da palavra2
-print(palavra2[0])
-# se primeira letra da palavra1 é igual a primeira letra da palavra2
-# Então, verifique a ordem entre as segundas letras de cada palavra
-if palavra1[0] == palavra2[0]:
-    print(palavra1[1] < palavra2[1])
+musica1 = album[0]['name']
+musica2 = album[5]['name']
 
-# produtos_organizado = selection_sort(produtos)
+for i in range(len(musica1)):
+    if musica1[i] < musica2[i]:
+        print(f'{musica1[i]} < {musica2[i]}')
+        print(f'a música {musica1} vem antes da música {musica2}')
+        break
 
-# for i in produtos_organizado:
-#     print(i)
+print('w' < 'G')
