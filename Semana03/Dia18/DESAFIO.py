@@ -41,9 +41,7 @@ class Playlist:
     # inserir música (sempre ao ínicio da lista)
     def insert_music(self, music: Music):
         self.musics.insert(0, music)
-        print(f'{music['name']} - {music['artist']} adicionado a sua playlist') # type: ignore
-        return
-    
+        print(f'Música {music['name']} - {music['artist']} adicionado a sua playlist') # type: ignore
     
     def delete_music(self):
         print('\n# deseja deletar qual música?\n')
@@ -76,39 +74,26 @@ class Playlist:
         except ValueError as e:
             raise e
 
-            # return print('\níndice inserido inválido!')
-        
-        return
-     
-
     # Mostrar todas as músicas da playlist
     def show_playlist_musics(self, playlistName: str):
 
         if self.name == playlistName:
-
             print(f'\nExibindo músicas da playlist {playlistName}\n')
-
             for i in enumerate(self.musics, 1):
                 print(f'{i[0]}. {i[1]['name']} - {i[1]['artist']} - {i[1]['reproductionTime']}')
-                
-        return
-
 
     # Tocar playlist do inícion ao fim
     def play_playlist(self):
         print(f'\n# Tocando playlist {self.name} #')
         for music in self.musics:
             music.play()
-        return
     
-
     # tocar uma música
     def play_one_music(self, index: int):
         try:
             print(f"\nTocando {self.musics[index].name} de {self.musics[index].artist}")
         except:
             print('Índice inserido inválido')
-        return
 
 
     # trocar a ordem de uma música
@@ -122,9 +107,7 @@ class Playlist:
         print('\n# Ordem das músicas alterada com sucesso!')
         for i in self.musics:
             print(i.name)
-
-        return
-    
+ 
 # funções de ordenação das músicas
     # bubble sort
     def sort_by_title(self):
@@ -148,7 +131,7 @@ class Playlist:
                         menor_nome = musica_2["name"]
 
                     # verificar quem tem precedencia na ordem alfabética pelas letras que se seguem
-                    for letra in range(len(menor_nome)-1):
+                    for letra in range(1, len(menor_nome)-1):
                         if musica_1["name"][letra].upper() > musica_2["name"][letra].upper():
                             self.musics[i+1] = musica_1
                             self.musics[i] = musica_2
@@ -190,15 +173,33 @@ class Playlist:
           
         for music in self.musics:
             print(music["name"])
-
         
         return
     
 
     # Selection sort
     def sort_by_reproductions(self):
+        try:
+            musicas_nao_ordenadas = self.musics
+            musicas_ordenadas = []
+            while musicas_nao_ordenadas != []:
+                menor_tempo = {}
+                
+                for music in musicas_nao_ordenadas:
+                    if menor_tempo == {}:
+                        menor_tempo = music
+                    
+                    if menor_tempo["reproductionTime"] > music["reproductionTime"]:
+                        menor_tempo = music
 
-        return
+                musicas_nao_ordenadas.remove(menor_tempo)
+                musicas_ordenadas.append(menor_tempo)
+
+        except ValueError as e:
+            raise e
+
+
+        return musicas_ordenadas
 ###########################################################################################
 
 album = [
@@ -269,8 +270,11 @@ lista_linkin_park = Playlist('linkin park')
 for music in album:
     lista_linkin_park.insert_music(music) # type: ignore
 
-lista_linkin_park.show_playlist_musics('linkin park')
-
+# Ordenar por título
 lista_linkin_park.sort_by_title()
-lista_linkin_park.delete_music()
-lista_linkin_park.show_playlist_musics('linkin park')
+
+# ordenar por tempo de reprodução
+lista_ordenada = lista_linkin_park.sort_by_reproductions()
+
+for musica in lista_ordenada:
+    print(musica)

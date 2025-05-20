@@ -53,22 +53,24 @@ album = [
     }
 ]
 
-musica1 = album[0]['name']
-musica2 = album[5]['name']
+musica1 = album[0]['reproductionTime']
+musica2 = album[5]['reproductionTime']
 
-for i in range(len(musica1)):
-    if musica1[i] < musica2[i]:
-        print(f'{musica1[i]} < {musica2[i]}')
-        print(f'a música {musica1} vem antes da música {musica2}')
-        # break
+# for i in range(len(musica1)):
+#     if musica1[i] < musica2[i]:
+#         print(f'{musica1[i]} < {musica2[i]}')
+#         print(f'a música {musica1} vem antes da música {musica2}')
+#         # break
     
-    elif musica1[i] > musica2[i]:
-        print(f'{musica1[i]} < {musica2[i]}')
-        print(f'a música {musica2} vem depois da música {musica1}')
+#     elif musica1[i] > musica2[i]:
+#         print(f'{musica1[i]} < {musica2[i]}')
+#         print(f'a música {musica2} vem depois da música {musica1}')
 
-    else:
-        print(f'{musica1[i]} == {musica2[i]}')
-        print(f'a música {musica1} possui a mesma letra da música {musica2}')
-        print('Seguindo pra próxima letra')
+#     else:
+#         print(f'{musica1[i]} == {musica2[i]}')
+#         print(f'a música {musica1} possui a mesma letra da música {musica2}')
+#         print('Seguindo pra próxima letra')
 
-# print('w' < 'G')
+print(musica1)
+print(musica2)
+print(f"{musica1} < {musica2}", musica1 < musica2)
