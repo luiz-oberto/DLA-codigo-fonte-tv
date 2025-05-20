@@ -40,11 +40,8 @@ class Playlist:
 
     # inserir música (sempre ao ínicio da lista)
     def insert_music(self, music: Music):
-
         self.musics.insert(0, music)
-
-        print(f'{music['name']} - {music['artist']} adicionado a sua playlist')
-
+        print(f'{music['name']} - {music['artist']} adicionado a sua playlist') # type: ignore
         return
     
     
@@ -52,30 +49,23 @@ class Playlist:
         print('\n# deseja deletar qual música?\n')
         
         for music in enumerate(self.musics, 1):
-            print(f'{music[0]}. {music[1].name} - {music[1].artist}')
+            print(f'{music[0]}. {music[1]["name"]} - {music[1]["artist"]}')
         
-        index = input('$ Insira o índice-> ')
+        index = input('\n$ Insira o índice-> ')
         
         try:
 
             select_to_int = int(index)
-            select = input(f'excluir a música {self.musics[select_to_int-1].name}? [Y/n] ')
+            select = input(f'excluir a música {self.musics[select_to_int-1]["name"]}? [Y/n] ').upper().strip()
             
             match select:
                 case '':
                     musica_deletada = self.musics.pop(select_to_int-1)
-                    print(f'A música {musica_deletada.name} foi excluída da playlist')
+                    print(f'A música {musica_deletada["name"]} foi excluída da playlist')
                 
                 case 'Y':
                     musica_deletada = self.musics.pop(select_to_int-1)
-                    print(f'A música {musica_deletada.name} foi excluída da playlist')
-                
-                case 'y':
-                    musica_deletada = self.musics.pop(select_to_int-1)
-                    print(f'A música {musica_deletada.name} foi excluída da playlist')
-                
-                case 'n':
-                    print(f'Exclusão cancelada.')
+                    print(f'A música {musica_deletada["name"]} foi excluída da playlist')
                 
                 case 'N':
                     print(f'Exclusão cancelada.')
@@ -83,9 +73,10 @@ class Playlist:
                 case _:
                     print('Valor inválido \nExclusão cancelada.')
 
-        except:
+        except ValueError as e:
+            raise e
 
-            return print('\níndice inserido inválido!')
+            # return print('\níndice inserido inválido!')
         
         return
      
@@ -141,34 +132,56 @@ class Playlist:
         need_to_order = True
 
         while need_to_order:
-            for i in range(len(self.musics)):
-                if i == len(self.musics)-1:
-                    break
 
-                musica_1 = self.musics[i]["name"]
-                musica_2 = self.musics[i+1]["name"]
+            for i in range(len(self.musics)-1):
 
-                # verificar qual possui a string maior
-                nome_maior = musica_1 if len(musica_1) > len(musica_2) else nome_maior = musica_2
-                
-                # verificar se a primeira letra do nome é igual, se positivo, ordenar pela segunda letra
-                if musica_1[0].upper() == musica_2[0].upper():
-                    for i in range(len(nome_maior)):
-                        if musica_1[i] < musica_2[i]:
-                            ...
-                        
-                    # print('primeira letra dos nomes são iguais')
+                musica_1 = self.musics[i]
+                musica_2 = self.musics[i+1]
 
-                if musica_1 > musica_2:
+                # verifica se a primeira letra do nome de cada música são iguais
+                if musica_1["name"][0].upper() == musica_2["name"][0].upper():
+
+                    # verificar qual possui a string menor
+                    if len(musica_1["name"]) < len(musica_2["name"]) :
+                        menor_nome = musica_1["name"] 
+                    else:
+                        menor_nome = musica_2["name"]
+
+                    # verificar quem tem precedencia na ordem alfabética pelas letras que se seguem
+                    for letra in range(len(menor_nome)-1):
+                        if musica_1["name"][letra].upper() > musica_2["name"][letra].upper():
+                            self.musics[i+1] = musica_1
+                            self.musics[i] = musica_2
+                            break
+
+                        elif musica_1["name"][letra].upper() < musica_2["name"][letra].upper():
+                            self.musics[i+1] = musica_2
+                            self.musics[i] = musica_1
+                            break
+
+                        elif letra == len(menor_nome)-1:
+                            break
+
+                        else:
+                            continue
+
+
+                elif musica_1["name"] > musica_2["name"]:
                     temp = self.musics[i+1]
                     self.musics[i+1] = self.musics[i]
                     self.musics[i] = temp
             
+
+            # Verifica se todas as músicas estão ordenadas
             for j in range(len(self.musics)):
                 if j == len(self.musics)-1:
                     break
-                
-                if self.musics[j]['name'] < self.musics[j+1]['name']:
+
+                if self.musics[j]['name'][0].upper() == self.musics[j+1]['name'][0].upper():
+                    if self.musics[j]['name'][1].upper() < self.musics[j+1]['name'][1].upper():
+                        need_to_order = False
+
+                elif self.musics[j]['name'] < self.musics[j+1]['name']: # O PROBLEMA ESTÁ AQUI!!!
                     need_to_order = False
 
                 else:
@@ -176,7 +189,7 @@ class Playlist:
                     break
           
         for music in self.musics:
-            print(music)
+            print(music["name"])
 
         
         return
@@ -218,14 +231,46 @@ album = [
     "name": "What I've Done",
     "artist": "Linkin Park",
     "reproductionTime": "3:28"
-    }
+    },
+    {
+    "name": "Hands Held High",
+    "artist": "Linkin Park",
+    "reproductionTime": "3:55"
+    },
+    {
+    "name": "No More Sorrow",
+    "artist": "Linkin Park",
+    "reproductionTime": "3:43"
+    },
+    {
+    "name": "Valentine's Day",
+    "artist": "Linkin Park",
+    "reproductionTime": "3:18"
+    },
+    {
+    "name": "In Between",
+    "artist": "Linkin Park",
+    "reproductionTime": "3:18"
+    },
+    {
+    "name": "In Pieces",
+    "artist": "Linkin Park",
+    "reproductionTime": "3:38"
+    },
+    {
+    "name": "The Little Things Give You Away",
+    "artist": "Linkin Park",
+    "reproductionTime": "6:25"
+    },
 ]
 
 lista_linkin_park = Playlist('linkin park')
 
 for music in album:
-    lista_linkin_park.insert_music(music)
+    lista_linkin_park.insert_music(music) # type: ignore
 
 lista_linkin_park.show_playlist_musics('linkin park')
 
 lista_linkin_park.sort_by_title()
+lista_linkin_park.delete_music()
+lista_linkin_park.show_playlist_musics('linkin park')

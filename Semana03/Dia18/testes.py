@@ -22,7 +22,7 @@ def selection_sort(lista: list):
 #
 album = [
     {
-    "name": "wake",
+    "name": "Wake",
     "artist": "Linkin Park",
     "reproductionTime": "1:43"
     },
@@ -60,6 +60,15 @@ for i in range(len(musica1)):
     if musica1[i] < musica2[i]:
         print(f'{musica1[i]} < {musica2[i]}')
         print(f'a música {musica1} vem antes da música {musica2}')
-        break
+        # break
+    
+    elif musica1[i] > musica2[i]:
+        print(f'{musica1[i]} < {musica2[i]}')
+        print(f'a música {musica2} vem depois da música {musica1}')
 
-print('w' < 'G')
+    else:
+        print(f'{musica1[i]} == {musica2[i]}')
+        print(f'a música {musica1} possui a mesma letra da música {musica2}')
+        print('Seguindo pra próxima letra')
+
+# print('w' < 'G')
