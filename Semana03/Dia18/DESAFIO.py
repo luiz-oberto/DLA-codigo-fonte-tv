@@ -19,7 +19,6 @@ música e outra pelo número de reproduções.
 
 '''
 class Music:
-    # 7. ATRIBUTOS DA MÚSICA
     def __init__(self, name: str, artist: str, reproductionTime: str):
         self.name = name
         self.artist = artist
@@ -41,7 +40,7 @@ class Playlist:
     # inserir música (sempre ao ínicio da lista)
     def insert_music(self, music: Music):
         self.musics.insert(0, music)
-        print(f'Música {music['name']} - {music['artist']} adicionado a sua playlist') # type: ignore
+        print(f'Música {music['name']} - {music['artist']} adicionado a sua playlist')
     
     def delete_music(self):
         print('\n# deseja deletar qual música?\n')
@@ -164,7 +163,7 @@ class Playlist:
                     if self.musics[j]['name'][1].upper() < self.musics[j+1]['name'][1].upper():
                         need_to_order = False
 
-                elif self.musics[j]['name'] < self.musics[j+1]['name']: # O PROBLEMA ESTÁ AQUI!!!
+                elif self.musics[j]['name'] < self.musics[j+1]['name']:
                     need_to_order = False
 
                 else:
@@ -173,8 +172,6 @@ class Playlist:
           
         for music in self.musics:
             print(music["name"])
-        
-        return
     
 
     # Selection sort
@@ -268,7 +265,7 @@ album = [
 lista_linkin_park = Playlist('linkin park')
 
 for music in album:
-    lista_linkin_park.insert_music(music) # type: ignore
+    lista_linkin_park.insert_music(music)
 
 # Ordenar por título
 lista_linkin_park.sort_by_title()
