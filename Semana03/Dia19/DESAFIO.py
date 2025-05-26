@@ -88,7 +88,18 @@ fatura = [
 
 
 # Você precisa usar recursão para encontrar o valor total de uma fatura, considerando todas as compras diretas e as sub-parcelas que elas possam ter.
-def valor_total(fatura):
-    # caso base
-    
-    return
+def valor_total_fatura(fatura: list):
+    valor_total = 0
+    for conta in fatura:
+        print(conta["valor"])
+        valor_total += conta["valor"]
+        
+        if conta.get("parcelas"):
+            parcelas = valor_total_fatura(conta.get("parcelas"))
+            valor_total+=parcelas
+        
+    return valor_total
+
+# print('Valor total da Fatura é:')
+valor = valor_total_fatura(fatura) # deve retornar: 4.669,90 (não esquecer de formatar o texto de saída)
+print(f'Valor total da fatura é : R$ {valor:.2f}')
