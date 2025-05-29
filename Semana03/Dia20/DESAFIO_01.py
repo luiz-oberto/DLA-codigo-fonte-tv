@@ -22,10 +22,10 @@ def busca_binaria_recursiva(lista: list, valor, inicio = 0, fim = None):
     if valor < lista[MEIO]:
         return busca_binaria_recursiva(lista, valor, inicio, MEIO - 1)
 
-    return busca_binaria_recursiva(lista, valor, MEIO + 1, fim)        
+    return busca_binaria_recursiva(lista, valor, MEIO + 1, fim)   
 
 
 
 lista = [10, 20, 30, 40, 50, 60]
 
-print(busca_binaria_recursiva(lista, 20))
+print(busca_binaria_recursiva(lista, 20))  
