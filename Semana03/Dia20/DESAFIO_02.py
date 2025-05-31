@@ -165,8 +165,4 @@ def buscar_palavra(lista, buscarValor = None, indice = 0):
 
     return buscar_palavra(lista, buscarValor, indice+1)
 
-
-
-
-
 buscar_palavra(mensagens, "vanessa")
