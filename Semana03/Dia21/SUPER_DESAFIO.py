@@ -23,14 +23,29 @@ conta_1 = {
     } # Armazena total transferido por chave Pix
 }
 
+conta_2 = {
+    "nome": "conta 1",
+    "saldo": 30000,
+    "limiteDiario": 10000,
+    "totalTransferidoHoje": 0,
+    "historicoTransacoes": [],
+    "totalPorChave": {}
+}
+
 # ENVIAR PIX
 def transferir(origem: dict, destino: dict, chavePix = '', valor = 0, mensagem = ''):
+
     if origem["totalTransferidoHoje"] + valor > origem["limiteDiario"]:
         return print('Limite de pix atingido, transferência cancelada.')
+    
+    if valor < 0:
+        return print("Valor inserido inválido")
 
-    # atualizar VALORES
+    # atualizar VALORES da ORIGEM
     origem["saldo"] =                   origem['saldo'] - valor
     origem["totalTransferidoHoje"] =    origem["totalTransferidoHoje"] + valor
+
+
 
     # salvar historico
     transacao = {
@@ -44,63 +59,67 @@ def transferir(origem: dict, destino: dict, chavePix = '', valor = 0, mensagem =
     origem["historicoTransacoes"].append(transacao)
 
     # armazenar o total trasnferido por chave pix
-    # VERIFICAR SE A CHAVE JÁ EXISTE
-    conta_1["totalPorChave"].update(dict.fromkeys([chavePix], valor))
+    if chavePix in origem["totalPorChave"]:
+        origem["totalPorChave"][chavePix] += valor
+    else:
+        origem["totalPorChave"].update(dict.fromkeys([chavePix], valor))
 
 
 
 # CANCELAR PIX
 def cancelar(indice, conta: dict):
-    print("\n==== CANCELANDO TRANSFERÊNCIA ====\n")
-    # ir no histórico de transações e reverter aquele pix feito
-    historico = conta["historicoTransacoes"]
-    log = {
-        "tipo": "ESTORNO",
-        "valorEstornado": historico[indice]["valorTransferido"],
-        "origem": historico[indice]["origem"],
-        "destino": historico[indice]["destino"],
-        "chavePix": historico[indice]["chavePix"],
-        "mensagem": historico[indice]['mensagem']
+    try:
+        print("\n==== CANCELANDO TRANSFERÊNCIA ====\n")
+        # ir no histórico de transações e reverter aquele pix feito
+        historico = conta["historicoTransacoes"]
+        log = {
+            "tipo": "ESTORNO",
+            "valorEstornado":   historico[indice]["valorTransferido"],
+            "origem":           historico[indice]["origem"],
+            "destino":          historico[indice]["destino"],
+            "chavePix":         historico[indice]["chavePix"],
+            "mensagem":         historico[indice]['mensagem']
 
-    }
-    # somar o valor de volta ao saldo
-    conta["saldo"] += historico[indice]["valorTransferido"]
-    conta["historicoTransacoes"].append(log) # adiciona ação de cancelar ao histórico
-
-    return
-
+        }
+        # somar o valor de volta ao saldo
+        conta["saldo"] += historico[indice]["valorTransferido"]
+        conta["historicoTransacoes"].append(log) # adiciona ação de cancelar ao histórico
+    except:
+        return print("Conta ou ídice refereniado inválidos.")
 
 def consulta(conta: dict):
-    print("===== CONSULTAR DADOS =====")
-    print(f'saldo:                      R${conta["saldo"]}') # substituir por .get()
-    print(f'Limite diário:              R${conta["limiteDiario"]}')
-    print(f'Total transferido - hoje:   R${conta["totalTransferidoHoje"]}')
+    try:
+        print("===== CONSULTAR DADOS =====")
+        print(f'saldo:                      R${conta["saldo"]}') # substituir por .get()
+        print(f'Limite diário:              R${conta["limiteDiario"]}')
+        print(f'Total transferido - hoje:   R${conta["totalTransferidoHoje"]}')
 
-    print(f'\n=== Histórico de Transações ===') # fazer uma condicional para val ESTORNADOS
-    for i, index in enumerate(conta["historicoTransacoes"], 1):
-        if index["tipo"] == "ESTORNO":
-            print('-> Registro:', i)
-            print(f'TIPO:                       {index["tipo"]}')
-            print(f'ORIGEM:                     {index["origem"]}')
-            print(f'DESTINO:                    {index["destino"]}')
-            print(f'CHAVE PIX:                  {index["chavePix"]}')
-            print(f'VALOR ESTORNADO:            R$ {index["valorEstornado"]}')
-            print(f'MENSAGEM:                   {index["mensagem"]}\n')
-        else:
-            print('- Registro:', i)
-            print(f'TIPO:                       {index["tipo"]}')
-            print(f'ORIGEM:                     {index["origem"]}')
-            print(f'DESTINO:                    {index["destino"]}')
-            print(f'CHAVE PIX:                  {index["chavePix"]}')
-            print(f'VALOR TRANSFERIDO:          R$ {index["valorTransferido"]}')
-            print(f'MENSAGEM:                   {index["mensagem"]}\n')
+        print(f'\n=== Histórico de Transações ===') # fazer uma condicional para val ESTORNADOS
+        for i, index in enumerate(conta["historicoTransacoes"], 1):
+            if index["tipo"] == "ESTORNO":
+                print('-> Registro:', i)
+                print(f'TIPO:                       {index["tipo"]}')
+                print(f'ORIGEM:                     {index["origem"]}')
+                print(f'DESTINO:                    {index["destino"]}')
+                print(f'CHAVE PIX:                  {index["chavePix"]}')
+                print(f'VALOR ESTORNADO:            R$ {index["valorEstornado"]}')
+                print(f'MENSAGEM:                   {index["mensagem"]}\n')
+            else:
+                print('- Registro:', i)
+                print(f'TIPO:                       {index["tipo"]}')
+                print(f'ORIGEM:                     {index["origem"]}')
+                print(f'DESTINO:                    {index["destino"]}')
+                print(f'CHAVE PIX:                  {index["chavePix"]}')
+                print(f'VALOR TRANSFERIDO:          R$ {index["valorTransferido"]}')
+                print(f'MENSAGEM:                   {index["mensagem"]}\n')
 
-    print(f'=== TOTAL POR CHAVE ===')
-    total_por_chave = conta["totalPorChave"].items()
-    for chave in total_por_chave:
-        print(f'CHAVE PIX:                  {chave[0]}')
-        print(f'VALOR TOTAL TRANSFERIDO:    R$ {chave[1]}\n')
-        
+        print(f'=== TOTAL POR CHAVE ===')
+        total_por_chave = conta["totalPorChave"].items()
+        for chave in total_por_chave:
+            print(f'CHAVE PIX:                  {chave[0]}')
+            print(f'VALOR TOTAL TRANSFERIDO:    R$ {chave[1]}\n')
+    except:
+        return print("Conta inválida")      
 
 
 
