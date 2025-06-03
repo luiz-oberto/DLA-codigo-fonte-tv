@@ -1,17 +1,15 @@
 '''
-1. Vamos fornecer uma estrutura inicial em JSON
-com o saldo, o limite diário para transferências (que
-será de R$ 10.000), teremos um controle para saber
-o quanto já foi transferido no dia, um histórico de
-transações por Pix e também um total já transferido
-por chave Pix.
+4. Existirá um total armazenado de todos os pix
+realizados para uma mesma chave **totalPorChave**.
+Quando esse total, independente do tempo,
+ultrapassar o limite diário de pix, essa chave estará
+liberada para receber transferências acima do limite
+diário, tendo como novo limite para transações o
+total já transferido para essa chave.
 
-2. Você deverá implementar 2 operações Pix, uma
-para enviar o Pix e outra para cancelar (ou seja, fazer
-o reembolso). Para isso você deve utilizar a
-**chavePix**, o **valor** a ser transferido e uma
-**mensagem** de referência. Para cancelar, basta utilizar
-o **indice** da transação para facilitar.
+    Então se chave, por exemplo, receber mais de R$
+10.000 no total, ela "desbloqueia" esse limite para
+transferências futuras.
 '''
 # VOU TER QUE CRIAR CLASSES!!!
 conta_1 = {
@@ -25,15 +23,13 @@ conta_1 = {
     } # Armazena total transferido por chave Pix
 }
 
-# operações pix
 # ENVIAR PIX
 def transferir(origem: dict, destino: dict, chavePix = '', valor = 0, mensagem = ''):
-    # FAZER VERIFICAÇÃO DO LIMITE DIÁRIO
-    # ...
+    if origem["totalTransferidoHoje"] + valor > origem["limiteDiario"]:
+        return print('Limite de pix atingido, transferência cancelada.')
 
     # atualizar VALORES
     origem["saldo"] =                   origem['saldo'] - valor
-    origem["limiteDiario"] =            origem["limiteDiario"] - valor
     origem["totalTransferidoHoje"] =    origem["totalTransferidoHoje"] + valor
 
     # salvar historico
@@ -44,55 +40,60 @@ def transferir(origem: dict, destino: dict, chavePix = '', valor = 0, mensagem =
         "destino": destino, # ["nome"]
         "chavePix": chavePix,
         "mensagem": mensagem
-        # data
     }
     origem["historicoTransacoes"].append(transacao)
 
     # armazenar o total trasnferido por chave pix
+    # VERIFICAR SE A CHAVE JÁ EXISTE
     conta_1["totalPorChave"].update(dict.fromkeys([chavePix], valor))
 
 
 
 # CANCELAR PIX
 def cancelar(indice, conta: dict):
+    print("\n==== CANCELANDO TRANSFERÊNCIA ====\n")
     # ir no histórico de transações e reverter aquele pix feito
-    # somar o valor de volta ao saldo
-    # somar o valor de volta ao limite diário
     historico = conta["historicoTransacoes"]
-    print(historico[indice])
-    transacao_a_cancelar = historico[indice]
     log = {
         "tipo": "ESTORNO",
-        "valorEstornado": transacao_a_cancelar["valorTransferido"],
-        "origem": None,
-        "destino": None,
-        "chavePix": None
+        "valorEstornado": historico[indice]["valorTransferido"],
+        "origem": historico[indice]["origem"],
+        "destino": historico[indice]["destino"],
+        "chavePix": historico[indice]["chavePix"],
+        "mensagem": historico[indice]['mensagem']
 
     }
-    conta["saldo"] += transacao_a_cancelar["valorTransferido"]
-    conta["limiteDiario"] += transacao_a_cancelar["valorTransferido"]
-    conta["historicoTransacoes"].append(log)
-
-    # conta["tipo"] = "TRANSFERENCIA CANCELADA"
+    # somar o valor de volta ao saldo
+    conta["saldo"] += historico[indice]["valorTransferido"]
+    conta["historicoTransacoes"].append(log) # adiciona ação de cancelar ao histórico
 
     return
 
 
 def consulta(conta: dict):
-    print("=== CONSULTAR DADOS ===")
+    print("===== CONSULTAR DADOS =====")
     print(f'saldo:                      R${conta["saldo"]}') # substituir por .get()
     print(f'Limite diário:              R${conta["limiteDiario"]}')
     print(f'Total transferido - hoje:   R${conta["totalTransferidoHoje"]}')
 
     print(f'\n=== Histórico de Transações ===') # fazer uma condicional para val ESTORNADOS
     for i, index in enumerate(conta["historicoTransacoes"], 1):
-        print('- Transação:', i)
-        print(f'TIPO:                       {index["tipo"]}')
-        print(f'ORIGEM:                     {index["origem"]}')
-        print(f'DESTINO:                    {index["destino"]}')
-        print(f'CHAVE PIX:                  {index["chavePix"]}')
-        print(f'VALOR TRANSFERIDO:          R$ {index["valorTransferido"]}')
-        print(f'MENSAGEM:                   {index["mensagem"]}\n')
+        if index["tipo"] == "ESTORNO":
+            print('-> Registro:', i)
+            print(f'TIPO:                       {index["tipo"]}')
+            print(f'ORIGEM:                     {index["origem"]}')
+            print(f'DESTINO:                    {index["destino"]}')
+            print(f'CHAVE PIX:                  {index["chavePix"]}')
+            print(f'VALOR ESTORNADO:            R$ {index["valorEstornado"]}')
+            print(f'MENSAGEM:                   {index["mensagem"]}\n')
+        else:
+            print('- Registro:', i)
+            print(f'TIPO:                       {index["tipo"]}')
+            print(f'ORIGEM:                     {index["origem"]}')
+            print(f'DESTINO:                    {index["destino"]}')
+            print(f'CHAVE PIX:                  {index["chavePix"]}')
+            print(f'VALOR TRANSFERIDO:          R$ {index["valorTransferido"]}')
+            print(f'MENSAGEM:                   {index["mensagem"]}\n')
 
     print(f'=== TOTAL POR CHAVE ===')
     total_por_chave = conta["totalPorChave"].items()
@@ -104,7 +105,9 @@ def consulta(conta: dict):
 
 
 transferir(conta_1, 'conta_2', 'zezinhoDaComeia@email.com', 500, 'mensagem de teste')
-transferir(conta_1, 'conta_2', '123.456.789-00', 1100, 'mensagem de teste')
+transferir(conta_1, 'conta_2', '123.456.789-00', 1000, 'mensagem de teste')
+transferir(conta_1, 'conta_2', '123.456.789-00', 8500, 'mensagem de teste')
+transferir(conta_1, 'conta_2', '(71)91234-5678)', 1, 'mensagem de teste')
 consulta(conta_1)
 
 cancelar(0, conta_1)

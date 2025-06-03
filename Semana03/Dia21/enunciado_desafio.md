@@ -5,6 +5,7 @@ em uma conta bancária, mas teremos algumas
 regras bem específicas. Então preste bastante
 atenção!
 
+FEITO
 1. Vamos fornecer uma estrutura inicial em JSON
 com o saldo, o limite diário para transferências (que
 será de R$ 10.000), teremos um controle para saber
@@ -24,6 +25,7 @@ const conta = {
 };
 ```
 
+FEITO
 2. Você deverá implementar 2 operações Pix, uma
 para enviar o Pix e outra para cancelar (ou seja, fazer
 o reembolso). Para isso você deve utilizar a
@@ -31,9 +33,10 @@ o reembolso). Para isso você deve utilizar a
 **mensagem** de referência. Para cancelar, basta utilizar
 o **indice** da transação para facilitar.
 
-
+FEITO
 3. A regra será a seguinte: A conta terá um limite
 máximo diário de R$ 10.000 para realizar Pix;
+
 
 4. Existirá um total armazenado de todos os pix
 realizados para uma mesma chave **totalPorChave**.
